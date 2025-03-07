@@ -1,0 +1,101 @@
+-- MyUI Library (MyUILib.lua)
+local MyUILib = {}
+
+-- Create the window
+function MyUILib:CreateWindow(title)
+    local window = Instance.new("ScreenGui")
+    window.Name = title
+    window.Parent = game.Players.LocalPlayer.PlayerGui
+    
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 400, 0, 300)
+    frame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    frame.Parent = window
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, 0, 0, 50)
+    titleLabel.Text = title
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Parent = frame
+
+    return window
+end
+
+-- Create a button
+function MyUILib:CreateButton(window, text, callback)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 200, 0, 50)
+    button.Position = UDim2.new(0.5, -100, 0.5, 0)
+    button.Text = text
+    button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Parent = window
+    
+    button.MouseButton1Click:Connect(function()
+        callback()
+    end)
+end
+
+-- Create a toggle
+function MyUILib:CreateToggle(window, text, default, callback)
+    local toggleFrame = Instance.new("Frame")
+    toggleFrame.Size = UDim2.new(0, 200, 0, 50)
+    toggleFrame.Position = UDim2.new(0.5, -100, 0.6, 0)
+    toggleFrame.BackgroundTransparency = 1
+    toggleFrame.Parent = window
+    
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0, 150, 0, 50)
+    label.Text = text
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.Parent = toggleFrame
+
+    local toggleButton = Instance.new("TextButton")
+    toggleButton.Size = UDim2.new(0, 50, 0, 50)
+    toggleButton.Position = UDim2.new(1, -50, 0, 0)
+    toggleButton.Text = default and "ON" or "OFF"
+    toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    toggleButton.Parent = toggleFrame
+
+    toggleButton.MouseButton1Click:Connect(function()
+        default = not default
+        toggleButton.Text = default and "ON" or "OFF"
+        toggleButton.BackgroundColor3 = default and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        callback(default)
+    end)
+end
+
+-- Create a notification
+function MyUILib:CreateNotification(title, message)
+    local notification = Instance.new("ScreenGui")
+    notification.Parent = game.Players.LocalPlayer.PlayerGui
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 400, 0, 100)
+    frame.Position = UDim2.new(0.5, -200, 0, -50)
+    frame.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+    frame.Parent = notification
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, 0, 0.5, 0)
+    titleLabel.Text = title
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Parent = frame
+
+    local messageLabel = Instance.new("TextLabel")
+    messageLabel.Size = UDim2.new(1, 0, 0.5, 0)
+    messageLabel.Text = message
+    messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    messageLabel.BackgroundTransparency = 1
+    messageLabel.Parent = frame
+
+    wait(3)
+    notification:Destroy()
+end
+
+return MyUILib
